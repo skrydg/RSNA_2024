@@ -7,7 +7,7 @@ from kaggle_rsna_2024.libs.scan_type import ScanType, string_to_scan_type
 
 from kaggle_rsna_2024.libs.input.input_data_item import InputDataItem
 
-class DataLoader():
+class DataLoader:
     def __init__(self, env: Env):
         self.env = env
         self.train_series_descriptions = self._load_series_descriptions(env.input_directory / "train_series_descriptions.csv")
