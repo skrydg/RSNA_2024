@@ -1,8 +1,10 @@
 import polars as pl
 import os
+import pydicom
 
 from collections import defaultdict
 from pydicom import dcmread
+
 
 from kaggle_rsna_2024.libs.env import Env
 from kaggle_rsna_2024.libs.scan_type import string_to_scan_type
@@ -37,7 +39,12 @@ class MetaDataLoader:
                     ds = dcmread(series_directory / filename, stop_before_pixels=True)
                     current_meta_data = {}
                     for i in ds:
-                        current_meta_data[i.description()] =  i.value
+
+                        if type(i.value) is pydicom.multival.MultiValue:
+                            current_meta_data[i.description()] = list(i.value)
+                        else:
+                            current_meta_data[i.description()] = i.value
+                        #print(i.description(), list(i.value), type(i.value), i.value.__dict__)
                     meta_data.append(current_meta_data)
         return pl.DataFrame(meta_data)
 
