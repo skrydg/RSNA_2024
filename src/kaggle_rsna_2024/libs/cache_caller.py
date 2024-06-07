@@ -8,8 +8,8 @@ class CachedCaller:
         self.directory = Path(directory)
         if not self.directory.exists():
             self.directory.mkdir(parents=True, exist_ok=True)
-        
-    def __getattr__(self, name):
+
+    def _call(self, name):
         filename = self.directory / f"{self.impl.__class__.__name__}_{str(name)}.pkl"
         if filename.exists():
             print("Load data from cache", flush=True)
@@ -17,8 +17,10 @@ class CachedCaller:
                 return pickle.load(file)
             
         print("No data found in cache", flush=True)
-        res = getattr(self.impl, name)
+        res = getattr(self.impl, name)()
         with open(filename, 'wb') as file:
             pickle.dump(res, file)
         return res
-        
+
+    def __getattr__(self, name):
+        return (lambda: self._call(name))
