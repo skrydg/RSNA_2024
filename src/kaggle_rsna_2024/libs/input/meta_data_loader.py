@@ -5,7 +5,7 @@ from collections import defaultdict
 from pydicom import dcmread
 
 from kaggle_rsna_2024.libs.env import Env
-
+from kaggle_rsna_2024.libs.scan_type import string_to_scan_type
 
 class MetaDataLoader:
     def __init__(self, env: Env, limit=1000000000):
