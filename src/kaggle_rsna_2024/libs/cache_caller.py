@@ -12,8 +12,8 @@ class CachedCaller:
     def __getattr__(self, name):
         filename = self.directory / f"{self.impl.__class__.__name__}_{str(name)}.pkl"
         if filename.exists():
+            print("Load data from cache", flush=True)
             with open(filename, 'rb') as file:
-                print("Load data from cache", flush=True)
                 return pickle.load(file)
             
         print("No data found in cache", flush=True)
