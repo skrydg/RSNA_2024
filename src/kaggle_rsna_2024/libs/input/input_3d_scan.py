@@ -15,11 +15,23 @@ class Input3dScan:
         reader = sitk.ImageSeriesReader()
         dicom_names = reader.GetGDCMSeriesFileNames(str(self.directory))
         reader.SetFileNames(dicom_names)
+
         self.image = reader.Execute()
-        self.image_array = sitk.GetArrayFromImage(self.image)
 
     def get_image(self):
         return self.image
 
+    def resample(self, new_size):
+        new_spacing = [
+            self.image.GetSize()[i] * self.image.GetSpacing()[i] / new_size[i]
+            for i in range(3)
+        ]
+
+        self.image = sitk.Resample(
+            self.image, new_size, sitk.Transform(),
+            sitk.sitkLinear, self.image.GetOrigin(), new_spacing,
+            self.image.GetDirection(), 0.0, self.image.GetPixelID()
+        )
+
     def get_image_array(self):
-        return self.image_array
+        return sitk.GetArrayFromImage(self.image)
