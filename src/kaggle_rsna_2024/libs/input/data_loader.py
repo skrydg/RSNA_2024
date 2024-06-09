@@ -15,19 +15,19 @@ class DataLoader:
 
     def stream_train_data(self):
         for study_id, study_desc in self.train_series_descriptions.items():
-            yield InputDataItem(self.env.input_directory / "train_images" / str(study_id), study_desc)
+            yield InputDataItem(self.env.input_directory / "train_images" / str(study_id), study_id, study_desc)
 
     def stream_test_data(self):
         for study_id, study_desc in self.test_series_descriptions.items():
-            yield InputDataItem(self.env.input_directory / "test_images" / str(study_id), study_desc)
+            yield InputDataItem(self.env.input_directory / "test_images" / str(study_id), study_id, study_desc)
 
     def get_train_item(self, study_id):
         study_desc = self.train_series_descriptions[study_id]
-        return InputDataItem(self.env.input_directory / "train_images" / str(study_id), study_desc)
+        return InputDataItem(self.env.input_directory / "train_images" / str(study_id), study_id, study_desc)
 
     def get_test_item(self, study_id):
         study_desc = self.test_series_descriptions[study_id]
-        return InputDataItem(self.env.input_directory / "test_images" / str(study_id), study_desc)
+        return InputDataItem(self.env.input_directory / "test_images" / str(study_id), study_id, study_desc)
 
     def _load_series_descriptions(self, filepath):
         csv_series_descriptions = pl.read_csv(filepath)
