@@ -1,6 +1,7 @@
 import os
 from pydicom import dcmread
 import numpy as np
+import SimpleITK as sitk
 
 from pathlib import Path
 
@@ -11,6 +12,14 @@ class Input3dScan:
         self.directory = directory
         self.scan_type = scan_type
         
-        indexes = sorted([int(Path(filename).stem) for filename in os.listdir(self.directory)])
-        self.series = [dcmread(directory / f"{index}.dcm").pixel_array for index in indexes]
-#        self.series = np.array(self.series)
+        reader = sitk.ImageSeriesReader()
+        dicom_names = reader.GetGDCMSeriesFileNames(self.directory)
+        reader.SetFileNames(dicom_names)
+        self.image = reader.Execute()
+        self.image_array = sitk.GetArrayFromImage(self.image)
+
+    def get_image(self):
+        return self.image
+
+    def get_image_array(self):
+        return self.image_array
