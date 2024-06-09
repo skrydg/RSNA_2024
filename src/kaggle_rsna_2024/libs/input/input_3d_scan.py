@@ -13,7 +13,7 @@ class Input3dScan:
         self.scan_type = scan_type
         
         reader = sitk.ImageSeriesReader()
-        dicom_names = reader.GetGDCMSeriesFileNames(self.directory)
+        dicom_names = reader.GetGDCMSeriesFileNames(str(self.directory))
         reader.SetFileNames(dicom_names)
         self.image = reader.Execute()
         self.image_array = sitk.GetArrayFromImage(self.image)
