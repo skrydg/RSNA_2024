@@ -14,6 +14,6 @@ def string_to_scan_type(str):
         return ScanType.sagittal_t1
 
     if str == "Axial T2":
-        return ScanType.sagittal_t1
+        return ScanType.axial_t2
 
     assert(0)
