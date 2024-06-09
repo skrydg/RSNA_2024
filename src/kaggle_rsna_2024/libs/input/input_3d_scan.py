@@ -8,8 +8,9 @@ from pathlib import Path
 from kaggle_rsna_2024.libs.scan_type import ScanType
 
 class Input3dScan:
-    def __init__(self, directory: Path, scan_type: ScanType):
+    def __init__(self, directory: Path, series_id: int, scan_type: ScanType):
         self.directory = directory
+        self.series_id = series_id
         self.scan_type = scan_type
         
         reader = sitk.ImageSeriesReader()
@@ -32,6 +33,7 @@ class Input3dScan:
             sitk.sitkLinear, self.image.GetOrigin(), new_spacing,
             self.image.GetDirection(), 0.0, self.image.GetPixelID()
         )
+        return self
 
     def get_image_array(self):
         return sitk.GetArrayFromImage(self.image)
