@@ -13,4 +13,4 @@ class InputDataItem:
         self.scans = {}
         for series_id, scan_type in series_info.items():
             series_directory = self.directory / str(series_id)
-            self.scans[scan_type] = Input3dScan(series_directory, series_id, scan_type, image_shape)
+            self.scans[scan_type] = Input3dScan(series_directory, study_id, series_id, scan_type, image_shape)

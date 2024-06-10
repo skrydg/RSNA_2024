@@ -23,8 +23,9 @@ def reshape_image(image, new_size):
     return image
     
 class Input3dScan:
-    def __init__(self, directory: Path, series_id: int, scan_type: ScanType, image_shape: tuple):
+    def __init__(self, directory: Path, study_id, int, series_id: int, scan_type: ScanType, image_shape: tuple):
         self.directory = directory
+        self.study_id = study_id
         self.series_id = series_id
         self.scan_type = scan_type
         self.image_shape = image_shape
