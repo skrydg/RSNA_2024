@@ -36,7 +36,7 @@ class DataLoader:
         study_desc = self.train_series_descriptions[study_id]
         return InputDataItem(
             self.env.input_directory / "train_images" / str(study_id), 
-            study_id, 
+            study_id,
             study_desc,
             self.image_shape
         )
