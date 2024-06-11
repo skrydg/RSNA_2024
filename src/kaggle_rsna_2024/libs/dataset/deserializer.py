@@ -10,9 +10,7 @@ class InputDataDeserializer:
     def __init__(self, default_value):
         self.default_value = default_value
     
-    def deserialize(self, record_bytes):
-        default_value = tf.io.serialize_tensor(np.zeros(shape=[20, 256, 256], dtype=np.uint8))
-        
+    def deserialize(self, record_bytes):        
         example = tf.io.parse_single_example(
             record_bytes,
             features = {
@@ -20,12 +18,11 @@ class InputDataDeserializer:
                 for scan_type in ScanType
             }
         )
-        return (tf.io.parse_tensor(
-            example['image'], out_type=tf.uint8
-        ),
-        tf.io.parse_tensor(
-            example['image2'], out_type=tf.uint8
-        ))
+
+        return [
+            tf.io.parse_tensor(example[f'image_{scan_type}'], out_type=tf.uint8)
+            for scan_type in ScanType
+        ]
         
 
 class TFRecordReader:
