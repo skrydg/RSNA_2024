@@ -3,7 +3,6 @@ import pandas as pd
 import tensorflow as tf
 import shutil
 
-
 from kaggle_rsna_2024.libs.scan_type import ScanType
 
 class InputDataItemSerializer:
@@ -20,22 +19,26 @@ class InputDataItemSerializer:
 
 
 class TFRecordWriter:
-    def __init__(self, directory: pathlib.Path, batch_size = 100):
+    def __init__(self, directory: pathlib.Path, file_size = 10 ** 8):
         self.directory = directory
-        self.writer_batch_size = batch_size
-        self.current_batch_size = self.writer_batch_size
+        self.writer_file_size = file_size
+        self.current_file_size = self.writer_file_size
         self.current_file_index = 0
         self.writer = None
 
+        if self.directory.exists():
+            shutil.rmtree(str(self.directory))
+        self.directory.mkdir(parents=True, exist_ok=True)
+
     def write(self, record):
-        if self.current_batch_size >= self.writer_batch_size:
+        if self.current_file_size >= self.writer_file_size:
             self.__create_new_writer()
 
-        assert (self.current_batch_size < self.writer_batch_size)
+        assert (self.current_file_size < self.writer_file_size)
         assert (self.writer is not None)
 
         self.writer.write(record)
-        self.current_batch_size += len(record)
+        self.current_file_size += len(record)
 
     def flush(self):
         if self.writer is not None:
@@ -49,5 +52,5 @@ class TFRecordWriter:
 
         self.writer = tf.io.TFRecordWriter(
             str(self.directory / "{:02}.tfrecords".format(self.current_file_index)))
-        self.current_batch_size = 0
+        self.current_file_size = 0
         self.current_file_index += 1
