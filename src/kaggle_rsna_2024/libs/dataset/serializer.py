@@ -8,7 +8,7 @@ from kaggle_rsna_2024.libs.scan_type import ScanType
 
 class InputDataItemSerializer:
     def serialize(self, input_data_item):
-        image = input_data_item.scans[ScanType.sagittal_t2_stir][0].get_array_image()
+        image = input_data_item.scans[ScanType.sagittal_t2_stir][0].get_image_array()
         train_example = tf.train.Example(features=tf.train.Features(                          
             feature={
                 'image': self._bytes_feature([tf.io.serialize_tensor(image).numpy()]),         
