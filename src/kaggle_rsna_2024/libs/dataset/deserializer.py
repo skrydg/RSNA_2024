@@ -6,7 +6,7 @@ from pathlib import Path
 
 from kaggle_rsna_2024.libs.scan_type import ScanType
 
-class InputDataDeserializer:
+class InputDataItemDeserializer:
     def __init__(self, default_value):
         self.default_value = default_value
     
