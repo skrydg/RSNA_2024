@@ -47,4 +47,11 @@ class Input3dScan:
         return self.image
 
     def get_image_array(self):
-        return sitk.GetArrayFromImage(self.image)
+        return self._convert_to_8bit(sitk.GetArrayFromImage(self.image))
+    
+    def _convert_to_8bit(self, x):
+        lower, upper = np.percentile(x, (1, 99))
+        x = np.clip(x, lower, upper)
+        x = x - np.min(x)
+        x = x / np.max(x) 
+        return (x * 255).astype("uint8")
