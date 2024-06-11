@@ -6,12 +6,29 @@ import shutil
 from kaggle_rsna_2024.libs.scan_type import ScanType
 
 class InputDataItemSerializer:
+    def __init__(self, default_value):
+        self.default_value = default_value
+
     def serialize(self, input_data_item):
-        image = input_data_item.scans[ScanType.sagittal_t2_stir][0].get_image_array()
-        train_example = tf.train.Example(features=tf.train.Features(                          
-            feature={
-                'image': self._bytes_feature([tf.io.serialize_tensor(image).numpy()]),         
-            }))
+        features = {
+            f'image_{scan_type}': self._bytes_feature([
+                tf.io.serialize_tensor(
+                    input_data_item.scans[scan_type][0].get_image_array()
+                ).numpy()
+            ])
+            for scan_type in ScanType
+            if len(input_data_item.scans[scan_type]) > 0
+        }
+
+        default_features = {
+            tf.io.serialize_tensor(self.default_value).numpy()
+            for scan_type in ScanType
+            if len(input_data_item.scans[scan_type]) == 0
+        }
+
+        features.update(default_features)
+
+        train_example = tf.train.Example(features=tf.train.Features(feature=features))
         return train_example.SerializeToString()
 
     def _bytes_feature(self, values):
