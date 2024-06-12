@@ -21,7 +21,7 @@ class InputDataItemSerializer:
         }
 
         default_features = {
-            tf.io.serialize_tensor(self.default_value).numpy()
+            f'image_{scan_type}': tf.io.serialize_tensor(self.default_value).numpy()
             for scan_type in ScanType
             if len(input_data_item.scans[scan_type]) == 0
         }
