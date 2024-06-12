@@ -14,6 +14,12 @@ class DataLoader:
         self.train_series_descriptions = self._load_series_descriptions(env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_series_descriptions.csv")
         self.test_series_descriptions = self._load_series_descriptions(env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification"/ "test_series_descriptions.csv")
 
+    def get_train_study_ids(self):
+        return self.train_series_descriptions.keys()
+
+    def get_test_study_ids(self):
+        return self.test_series_descriptions.keys()
+
     def stream_train_data(self):
         for study_id, study_desc in self.train_series_descriptions.items():
             yield InputDataItem(
@@ -26,7 +32,7 @@ class DataLoader:
     def stream_test_data(self):
         for study_id, study_desc in self.test_series_descriptions.items():
             yield InputDataItem(
-                self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification"/ "test_images" / str(study_id), 
+                self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification"/ "test_images" / str(study_id),
                 study_id, 
                 study_desc,
                 self.image_shape
