@@ -10,7 +10,7 @@ class LabelLoader:
         self.dummy_columns = [f"{column}_{level}" for column in self.columns for level in self.levels]
 
     def load(self, study_ids):
-        train = pl.read_csv(self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification/train.csv")
+        train = pl.read_csv(self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train.csv")
         train = train.filter(pl.col("study_id").is_in(study_ids))
 
         train = train.fill_null("Normal/Mild")

@@ -13,10 +13,10 @@ class MetaDataLoader:
     def __init__(self, env: Env, limit=1000000000):
         self.env = env
         self.limit = limit
-        self.train_series_descriptions_file = env.input_directory / "train_series_descriptions.csv"
-        self.test_series_descriptions_file = env.input_directory / "test_series_descriptions.csv"
-        self.train_images = env.input_directory / "train_images"
-        self.test_images = env.input_directory / "test_images"
+        self.train_series_descriptions_file = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_series_descriptions.csv"
+        self.test_series_descriptions_file = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "test_series_descriptions.csv"
+        self.train_images = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_images"
+        self.test_images = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "test_images"
         
     def get_train_meta_data(self):
         return self.load_meta_data(self.train_series_descriptions_file, self.train_images)

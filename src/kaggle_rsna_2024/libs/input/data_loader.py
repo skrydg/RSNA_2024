@@ -11,13 +11,13 @@ class DataLoader:
     def __init__(self, env: Env, image_shape):
         self.env = env
         self.image_shape = image_shape
-        self.train_series_descriptions = self._load_series_descriptions(env.input_directory / "train_series_descriptions.csv")
-        self.test_series_descriptions = self._load_series_descriptions(env.input_directory / "test_series_descriptions.csv")
+        self.train_series_descriptions = self._load_series_descriptions(env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_series_descriptions.csv")
+        self.test_series_descriptions = self._load_series_descriptions(env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification"/ "test_series_descriptions.csv")
 
     def stream_train_data(self):
         for study_id, study_desc in self.train_series_descriptions.items():
             yield InputDataItem(
-                self.env.input_directory / "train_images" / str(study_id), 
+                self.env.input_directory "rsna-2024-lumbar-spine-degenerative-classification" / "train_images" / str(study_id), 
                 study_id, 
                 study_desc,
                 self.image_shape
@@ -26,7 +26,7 @@ class DataLoader:
     def stream_test_data(self):
         for study_id, study_desc in self.test_series_descriptions.items():
             yield InputDataItem(
-                self.env.input_directory / "test_images" / str(study_id), 
+                self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification"/ "test_images" / str(study_id), 
                 study_id, 
                 study_desc,
                 self.image_shape
@@ -35,7 +35,7 @@ class DataLoader:
     def get_train_item(self, study_id):
         study_desc = self.train_series_descriptions[study_id]
         return InputDataItem(
-            self.env.input_directory / "train_images" / str(study_id), 
+            self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_images" / str(study_id), 
             study_id,
             study_desc,
             self.image_shape
@@ -44,7 +44,7 @@ class DataLoader:
     def get_test_item(self, study_id):
         study_desc = self.test_series_descriptions[study_id]
         return InputDataItem(
-            self.env.input_directory / "test_images" / str(study_id), 
+            self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" /"test_images" / str(study_id), 
             study_id, 
             study_desc,
             self.image_shape
