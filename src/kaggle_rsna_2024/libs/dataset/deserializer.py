@@ -10,21 +10,24 @@ class InputDataItemDeserializer:
     def __init__(self, default_value):
         self.default_value = default_value
     
-    def deserialize(self, record_bytes):        
+    def deserialize(self, record_bytes):
+        features = {
+            f"image_{scan_type}": tf.io.FixedLenFeature([], tf.string)
+            for scan_type in ScanType
+        }
+        features["study_id"] = tf.io.FixedLenFeature([], tf.int64)
+
         example = tf.io.parse_single_example(
             record_bytes,
-            features = {
-                f"image_{scan_type}": tf.io.FixedLenFeature([], tf.string)
-                for scan_type in ScanType
-            }
+            features = features
         )
 
-        return [
+        return ([
             tf.io.parse_tensor(example[f'image_{scan_type}'], out_type=tf.uint8)
             for scan_type in ScanType
-        ]
-        
-
+        ],
+        example["study_id"])
+    
 class TFRecordReader:
     def __init__(self, directory: str):
         self.directory = Path(directory)
@@ -34,4 +37,4 @@ class TFRecordReader:
         return tf.data.TFRecordDataset(self.__get_files())
 
     def __get_files(self):
-        return glob.glob(f'{self.directory}/*.tfrecords')
+        return glob.glob(f'{self.directory}/*/*.tfrecords')
