@@ -17,7 +17,7 @@ class DataLoader:
     def stream_train_data(self):
         for study_id, study_desc in self.train_series_descriptions.items():
             yield InputDataItem(
-                self.env.input_directory "rsna-2024-lumbar-spine-degenerative-classification" / "train_images" / str(study_id), 
+                self.env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_images" / str(study_id), 
                 study_id, 
                 study_desc,
                 self.image_shape
