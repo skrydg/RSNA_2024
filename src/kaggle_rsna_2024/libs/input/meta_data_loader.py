@@ -14,7 +14,6 @@ class MetaDataLoader:
     def __init__(self, data_loader_configuration: DataLoaderConfiguration, limit=1000000000):
         self.data_loader_configuration = data_loader_configuration
         self.limit = limit
-        
 
     def get_train_meta_data(self):
         return self.get_meta_data(DatasetType.Train)
