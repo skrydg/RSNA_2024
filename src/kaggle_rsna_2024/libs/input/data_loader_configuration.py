@@ -1,8 +1,9 @@
 from kaggle_rsna_2024.libs.env import Env
 
 from pathlib import Path
+from enum import Enum
 
-class DatasetType:
+class DatasetType(Enum):
     Train = 0,
     Test = 1
 
