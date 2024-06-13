@@ -17,7 +17,7 @@ class DataLoader:
         self.meta_data = meta_data
         self.image_shape = image_shape
         self.series_descriptions = {
-             self._load_series_descriptions(dataset_type)
+             dataset_type: self._load_series_descriptions(dataset_type)
              for dataset_type in DatasetType
         }
         
