@@ -15,6 +15,13 @@ class MetaDataLoader:
         self.data_loader_configuration = data_loader_configuration
         self.limit = limit
         
+
+    def get_train_meta_data(self):
+        return self.get_meta_data(DatasetType.Train)
+
+    def get_test_meta_data(self):
+        return self.get_meta_data(DatasetType.Test)
+
     def get_meta_data(self, dataset_type):
         images_directory = self.data_loader_configuration.get_image_path(dataset_type)
         series_descriptions = self._load_series_descriptions(dataset_type)
