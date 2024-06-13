@@ -10,8 +10,7 @@ from kaggle_rsna_2024.libs.input.data_loader_configuration import DataLoaderConf
 from kaggle_rsna_2024.libs.input.meta_data_loader import MetaDataLoader
 from kaggle_rsna_2024.libs.input.input_data_item import InputDataItem, InputDataItemMetaInfo
 from kaggle_rsna_2024.libs.input.input_3d_scan import Input3dScanMetaInfo, Input3dScanMetaInfo
-
-
+ 
 class DataLoader:
     def __init__(self, data_loader_configuration: DataLoaderConfiguration, meta_data, image_shape):
         self.data_loader_configuration = data_loader_configuration
