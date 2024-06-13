@@ -21,17 +21,28 @@ def reshape_image(image, new_size):
     )
 
     return image
-    
-class Input3dScan:
-    def __init__(self, directory: Path, study_id: int, series_id: int, scan_type: ScanType, image_shape: tuple):
+
+class Input3dScanMetaInfo:
+    def __init__(self,
+                 directory: Path,
+                 study_id: int,
+                 series_id: int,
+                 scan_type: ScanType,
+                 shape: tuple):
         self.directory = directory
         self.study_id = study_id
         self.series_id = series_id
         self.scan_type = scan_type
+        self.shape = shape
+
+
+class Input3dScan:
+    def __init__(self, info: Input3dScanMetaInfo, image_shape: tuple):
+        self.info = info
         self.image_shape = image_shape
 
         scans = []
-        dicom_names = sitk.ImageSeriesReader().GetGDCMSeriesFileNames(str(self.directory))
+        dicom_names = sitk.ImageSeriesReader().GetGDCMSeriesFileNames(str(self.info.directory))
         reader = sitk.ImageSeriesReader()
         for dicom_name in dicom_names:
             reader.SetFileNames([dicom_name])
