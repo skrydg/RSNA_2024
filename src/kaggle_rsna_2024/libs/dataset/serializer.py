@@ -22,7 +22,7 @@ class InputDataItemSerializer:
         features['label'] = self._ints_feature(label)
         features['study_id'] = self._ints_feature([input_data_item.info.study_id])
         features.update({
-            f"shape_{scan_type}": self._ints_feature(input_data_item.scans[scan_type].info.shape)
+            f"shape_{scan_type}": self._ints_feature(input_data_item.scans[scan_type][0].info.shape)
             for scan_type in ScanType
             if len(input_data_item.scans[scan_type]) > 0
         })
