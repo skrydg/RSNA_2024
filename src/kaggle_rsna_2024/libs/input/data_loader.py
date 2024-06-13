@@ -38,7 +38,7 @@ class DataLoader:
     
     def get_meta_data(self, dataset_type, study_id):
         directory = self.data_loader_configuration.get_image_path(dataset_type) / str(study_id)
-        study_desc = self.train_series_descriptions[study_id]
+        study_desc = self.series_descriptions[dataset_type][study_id]
         scan_meta_info = {}
         for series_id, scan_type in  study_desc:
             scan_directory = directory / str(series_id)
