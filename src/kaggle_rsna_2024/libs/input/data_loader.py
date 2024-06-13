@@ -5,7 +5,11 @@ from collections import defaultdict
 from kaggle_rsna_2024.libs.env import Env
 from kaggle_rsna_2024.libs.scan_type import ScanType, string_to_scan_type
 
-from kaggle_rsna_2024.libs.input import DatasetType, InputDataItem, MetaDataLoader, Input3dScanMetaInfo, InputDataItemMetaInfo, DataLoaderConfiguration
+from kaggle_rsna_2024.libs.input.data_loader_configuration import DatasetType
+from kaggle_rsna_2024.libs.input.data_loader_configuration import DataLoaderConfiguration
+from kaggle_rsna_2024.libs.input.meta_data_loader import MetaDataLoader
+from kaggle_rsna_2024.libs.input.input_data_item import InputDataItem, InputDataItemMetaInfo
+from kaggle_rsna_2024.libs.input.input_3d_scan import Input3dScanMetaInfo, Input3dScanMetaInfo
 
 
 class DataLoader:
