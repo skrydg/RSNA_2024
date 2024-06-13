@@ -43,10 +43,9 @@ class DataLoader:
         scan_meta_info = {}
         for series_id, scan_type in study_desc.items():
             scan_directory = directory / str(series_id)
-            print(study_id, series_id)
             mask = (self.meta_data["Series Instance UID"] == f"{study_id}.{series_id}")
-            rows = self.meta_data[mask]["Rows"][0]
-            columns = self.meta_data[mask]["Columns"][0]
+            rows = self.meta_data[mask]["Rows"].to_numpy()[0]
+            columns = self.meta_data[mask]["Columns"].to_numpy()[0]
             height = self.meta_data[mask]["Instance Number"].shape[0]
             scan_meta_info[series_id] = Input3dScanMetaInfo(scan_directory, study_id, series_id, scan_type, (rows, columns, height))
 

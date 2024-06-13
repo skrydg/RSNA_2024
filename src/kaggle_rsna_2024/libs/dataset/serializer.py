@@ -19,7 +19,7 @@ class InputDataItemSerializer:
             for scan_type in ScanType
             if len(input_data_item.scans[scan_type]) > 0
         }
-        features['study_id'] = self._ints_feature([input_data_item.study_id])
+        features['study_id'] = self._ints_feature([input_data_item.info.study_id])
 
         default_features = {
             f'image_{scan_type}': self._bytes_feature([tf.io.serialize_tensor(self.default_value).numpy()])
