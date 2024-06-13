@@ -8,24 +8,16 @@ from pydicom import dcmread
 
 from kaggle_rsna_2024.libs.env import Env
 from kaggle_rsna_2024.libs.scan_type import string_to_scan_type
+from kaggle_rsna_2024.libs.input import DataLoaderConfiguration, DatasetType
 
 class MetaDataLoader:
-    def __init__(self, env: Env, limit=1000000000):
-        self.env = env
+    def __init__(self, data_loader_configuration: DataLoaderConfiguration, limit=1000000000):
+        self.data_loader_configuration = data_loader_configuration
         self.limit = limit
-        self.train_series_descriptions_file = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_series_descriptions.csv"
-        self.test_series_descriptions_file = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "test_series_descriptions.csv"
-        self.train_images = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "train_images"
-        self.test_images = env.input_directory / "rsna-2024-lumbar-spine-degenerative-classification" / "test_images"
         
-    def get_train_meta_data(self):
-        return self.load_meta_data(self.train_series_descriptions_file, self.train_images)
-    
-    def get_test_meta_data(self):
-        return self.load_meta_data(self.test_series_descriptions_file, self.test_images)
-    
-    def load_meta_data(self, series_descriptions_file, images_directory):
-        series_descriptions = self._load_series_descriptions(series_descriptions_file)
+    def get_meta_data(self, dataset_type):
+        images_directory = self.data_loader_configuration.get_image_path(dataset_type)
+        series_descriptions = self._load_series_descriptions(dataset_type)
         meta_data = []
         
         count_items = 0
@@ -48,7 +40,9 @@ class MetaDataLoader:
                     meta_data.append(current_meta_data)
         return pl.DataFrame(meta_data)
 
-    def _load_series_descriptions(self, filepath):
+    def _load_series_descriptions(self, dataset_type):
+        filepath = self.data_loader_configuration.get_series_description_path(dataset_type)
+
         csv_series_descriptions = pl.read_csv(filepath)
         series_descriptions = defaultdict(lambda: defaultdict())
         for (study_id, series_id, series_description) in csv_series_descriptions.rows():
