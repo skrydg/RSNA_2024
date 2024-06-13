@@ -27,7 +27,7 @@ class InputDataItemDeserializer:
             tf.io.parse_tensor(example[f'image_{scan_type}'], out_type=tf.uint8)
             for scan_type in ScanType
         ],
-        tf.io.parse_tensor(example["label"], out_type=tf.uint8))
+        tf.io.parse_tensor(example["label"], out_type=tf.int32))
     
 class TFRecordReader:
     def __init__(self, directory: str):
