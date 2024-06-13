@@ -40,7 +40,7 @@ class DataLoader:
         directory = self.data_loader_configuration.get_image_path(dataset_type) / str(study_id)
         study_desc = self.series_descriptions[dataset_type][study_id]
         scan_meta_info = {}
-        for series_id, scan_type in  study_desc:
+        for series_id, scan_type in  study_desc.items():
             scan_directory = directory / str(series_id)
             rows = self.meta_data.filter(pl.col("Series Instance UID") == f"{study_id}.{series_id}")["Rows"][0]
             columns = self.meta_data.filter(pl.col("Series Instance UID") == f"{study_id}.{series_id}")["Columns"][0]
