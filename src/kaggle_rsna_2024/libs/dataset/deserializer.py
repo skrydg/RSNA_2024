@@ -16,6 +16,7 @@ class InputDataItemDeserializer:
             for scan_type in ScanType
         }
         features["study_id"] = tf.io.FixedLenFeature([], tf.int64)
+        features["label"] = tf.io.FixedLenFeature([], tf.string)
 
         example = tf.io.parse_single_example(
             record_bytes,
@@ -26,7 +27,7 @@ class InputDataItemDeserializer:
             tf.io.parse_tensor(example[f'image_{scan_type}'], out_type=tf.uint8)
             for scan_type in ScanType
         ],
-        example["study_id"])
+        tf.io.parse_tensor(example["label"], out_type=tf.uint8))
     
 class TFRecordReader:
     def __init__(self, directory: str):

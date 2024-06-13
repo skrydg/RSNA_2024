@@ -19,7 +19,7 @@ class InputDataItemSerializer:
             for scan_type in ScanType
             if len(input_data_item.scans[scan_type]) > 0
         }
-        features['label'] = self._ints_feature(label)
+        features['label'] = self._bytes_feature([tf.io.serialize_tensor(label).numpy()])
         features['study_id'] = self._ints_feature([input_data_item.info.study_id])
         features.update({
             f"shape_{scan_type}": self._ints_feature(input_data_item.scans[scan_type][0].info.shape)
