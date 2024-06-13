@@ -19,6 +19,7 @@ class InputDataItem:
         self.image_shape = image_shape
 
         self.scans = defaultdict(list)
-        for series_id, scan_type in self.info.scan_meta_info.items():
-            series_directory = self.info.directory / str(series_id)
-            self.scans[scan_type].append(Input3dScan(self.info.scan_meta_info[series_id], image_shape))
+        for series_id in self.info.scan_meta_info.keys():
+            self.scans[self.info.scan_meta_info[series_id].scan_type].append(
+                Input3dScan(self.info.scan_meta_info[series_id], image_shape)
+            )
