@@ -9,7 +9,7 @@ class InputDataItemSerializer:
     def __init__(self, default_value):
         self.default_value = default_value
 
-    def serialize(self, input_data_item):
+    def serialize(self, input_data_item, label):
         features = {
             f'image_{scan_type}': self._bytes_feature([
                 tf.io.serialize_tensor(
@@ -19,7 +19,13 @@ class InputDataItemSerializer:
             for scan_type in ScanType
             if len(input_data_item.scans[scan_type]) > 0
         }
+        features['label'] = self._ints_feature(label)
         features['study_id'] = self._ints_feature([input_data_item.info.study_id])
+        features.update({
+            f"shape_{scan_type}": self._ints_feature(input_data_item.scans[scan_type].info.shape)
+            for scan_type in ScanType
+            if len(input_data_item.scans[scan_type]) > 0
+        })
 
         default_features = {
             f'image_{scan_type}': self._bytes_feature([tf.io.serialize_tensor(self.default_value).numpy()])
