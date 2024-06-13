@@ -1,4 +1,4 @@
-import polars as pl
+import pandas as pd
 import os
 import pydicom
 
@@ -45,7 +45,7 @@ class MetaDataLoader:
                             current_meta_data[i.description()] = i.value
                         #print(i.description(), list(i.value), type(i.value), i.value.__dict__)
                     meta_data.append(current_meta_data)
-        return pl.DataFrame(meta_data)
+        return pd.DataFrame(meta_data)
 
     def _load_series_descriptions(self, dataset_type):
         filepath = self.data_loader_configuration.get_series_description_path(dataset_type)
