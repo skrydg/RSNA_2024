@@ -1,4 +1,4 @@
-import polars as pl
+import pandas as pd
 
 from collections import defaultdict
 
@@ -30,21 +30,24 @@ class DataLoader:
 
     def _load_series_descriptions(self, dataset_type):
         filepath = self.data_loader_configuration.get_series_description_path(dataset_type)
-        csv_series_descriptions = pl.read_csv(filepath)
+
+        csv_series_descriptions = pd.read_csv(filepath)
         series_descriptions = defaultdict(lambda: defaultdict())
-        for (study_id, series_id, series_description) in csv_series_descriptions.rows():
-            series_descriptions[study_id][series_id] = string_to_scan_type(series_description)
+        for index, row in csv_series_descriptions.iterrows():
+            series_descriptions[row["study_id"]][row["series_id"]] = string_to_scan_type(row["series_description"])
         return series_descriptions
     
     def get_meta_data(self, dataset_type, study_id):
         directory = self.data_loader_configuration.get_image_path(dataset_type) / str(study_id)
         study_desc = self.series_descriptions[dataset_type][study_id]
         scan_meta_info = {}
-        for series_id, scan_type in  study_desc.items():
+        for series_id, scan_type in study_desc.items():
             scan_directory = directory / str(series_id)
-            rows = self.meta_data.filter(pl.col("Series Instance UID") == f"{study_id}.{series_id}")["Rows"][0]
-            columns = self.meta_data.filter(pl.col("Series Instance UID") == f"{study_id}.{series_id}")["Columns"][0]
-            height = self.meta_data.filter(pl.col("Series Instance UID") == f"{study_id}.{series_id}")["Instance Number"].shape[0]
+            print(study_id, series_id)
+            mask = (self.meta_data["Series Instance UID"] == f"{study_id}.{series_id}")
+            rows = self.meta_data[mask]["Rows"][0]
+            columns = self.meta_data[mask]["Columns"][0]
+            height = self.meta_data[mask]["Instance Number"].shape[0]
             scan_meta_info[series_id] = Input3dScanMetaInfo(scan_directory, study_id, series_id, scan_type, (rows, columns, height))
 
         return InputDataItemMetaInfo(directory, study_id, scan_meta_info)
