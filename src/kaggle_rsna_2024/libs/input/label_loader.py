@@ -10,6 +10,9 @@ class LabelLoader:
         self.levels = ['Normal/Mild', 'Moderate', 'Severe']
         self.dummy_columns = [f"{column}_{level}" for column in self.columns for level in self.levels]
 
+    def get_columns(self):
+        return self.dummy_columns
+
     def load(self, study_ids):
         train = pl.read_csv(self.data_loader_configuration.get_labels_path(DatasetType.Train))
         train = train.filter(pl.col("study_id").is_in(study_ids))
