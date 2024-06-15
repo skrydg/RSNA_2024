@@ -1,5 +1,5 @@
 import numpy as np
-
+import tensorflow as tf
 from keras.src import backend
 from keras.src.api_export import keras_export
 from keras.src.layers.preprocessing.tf_data_layer import TFDataLayer
