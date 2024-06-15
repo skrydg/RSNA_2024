@@ -8,7 +8,7 @@ class LabelLoader:
     LEVELS = ['Normal/Mild', 'Moderate', 'Severe']
 
     def __init__(self, data_loader_configuration: DataLoaderConfiguration):
-        self.DUMMY_COLUMNS = [f"{column}_{level}" for column in COLUMNS for level in LEVELS]
+        self.DUMMY_COLUMNS = [f"{column}_{level}" for column in self.COLUMNS for level in self.LEVELS]
         self.data_loader_configuration = data_loader_configuration
 
     def load(self, study_ids):
