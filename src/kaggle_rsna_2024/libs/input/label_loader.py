@@ -29,4 +29,4 @@ class LabelLoader:
         
         columns = train.columns
         columns.remove("study_id")
-        return pl.concat(rows, how='vertical')[self.COLUMNS].to_numpy()
+        return pl.concat(rows, how='vertical')[self.DUMMY_COLUMNS].to_numpy()
