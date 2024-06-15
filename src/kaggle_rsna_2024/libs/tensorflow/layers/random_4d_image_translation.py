@@ -6,7 +6,7 @@ from keras.src.layers.preprocessing.tf_data_layer import TFDataLayer
 from keras.src.random.seed_generator import SeedGenerator
 
 
-class Random4dImageTranslation(TFDataLayer):
+class Random4DImageTranslation(TFDataLayer):
     _FACTOR_VALIDATION_ERROR = (
         "The `factor` argument should be a number (or a list of two numbers) "
         "in the range [-1.0, 1.0]. "
