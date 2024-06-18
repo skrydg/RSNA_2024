@@ -2,10 +2,11 @@ import json
 import os
 import shutil
 import tempfile
-import kaggle
+
 import json
 
 from pathlib import Path
+from kaggle.rest import ApiException
 from kaggle.api.kaggle_api_extended import KaggleApi
 
 
@@ -30,14 +31,14 @@ class KaggleApiClient:
         try:
             self._create_meta_file(directory, title)
             self.api.dataset_create_new_cli(directory, dir_mode='zip')
-        except kaggle.rest.ApiException as e:
+        except ApiException as e:
             print(f"Exception when calling KaggleApi->datasets_create_new: {e}")
 
     def _upload_dataset_version(self, title, directory) -> None:
         try:
             self._create_meta_file(directory, title)
             self.api.dataset_create_version(directory, version_notes="", dir_mode="zip")
-        except kaggle.rest.ApiException as e:
+        except ApiException as e:
             print(f"Exception when calling KaggleApi->datasets_create_new: {e}")
             
     def _create_meta_file(self, directory, title):
