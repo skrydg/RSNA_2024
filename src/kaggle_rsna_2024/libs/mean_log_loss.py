@@ -2,8 +2,8 @@ import numpy as np
 import tensorflow as tf
 
 class MeanLogLoss(tf.keras.Loss):
-    def __init__(self, columns):
-        super(MeanLogLoss, self).__init__()
+    def __init__(self, columns, **kwargs):
+        super(MeanLogLoss, self).__init__(**kwargs)
         self.columns = columns
         self.conditions = ['spinal', 'foraminal', 'subarticular']
         self.w = np.array([1, 2, 4])
