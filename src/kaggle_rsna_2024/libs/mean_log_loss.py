@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 
 class MeanLogLoss(tf.keras.Loss):
-    def __init__(self, columns, **kwargs):
+    def __init__(self, columns=[], **kwargs):
         super(MeanLogLoss, self).__init__(**kwargs)
         self.columns = columns
         self.conditions = ['spinal', 'foraminal', 'subarticular']
