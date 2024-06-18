@@ -11,8 +11,8 @@ from pathlib import Path
 
 class KaggleApiClient:
     def __init__(self):
-        import kaggle
-        self.api = kaggle.api.kaggle_api_extended.KaggleApi()
+        from kaggle.api.kaggle_api_extended import KaggleApi
+        self.api = KaggleApi()
         self.api.authenticate()
         self.username = self.api.get_config_value(self.api.CONFIG_NAME_USER)
 
