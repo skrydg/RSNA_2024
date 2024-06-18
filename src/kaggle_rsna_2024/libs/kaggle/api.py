@@ -6,12 +6,13 @@ import tempfile
 import json
 
 from pathlib import Path
-from kaggle.api.kaggle_api_extended import KaggleApi
 
+# We can't import kaggle on top of the file as it requiered properly env setup
 
 class KaggleApiClient:
     def __init__(self):
-        self.api = KaggleApi()
+        import kaggle
+        self.api = kaggle.api.kaggle_api_extended.KaggleApi()
         self.api.authenticate()
         self.username = self.api.get_config_value(self.api.CONFIG_NAME_USER)
 
