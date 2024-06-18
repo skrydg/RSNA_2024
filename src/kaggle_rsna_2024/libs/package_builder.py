@@ -1,5 +1,6 @@
 import os
 import tempfile
+import shutil
 from distutils.dir_util import copy_tree
 
 
@@ -12,6 +13,8 @@ class PackageBuilder:
         temp_dir = tempfile.mkdtemp()
         
         os.chdir(directory)
+        shutil.rmtree("build", ignore_errors=True)
+        shutil.rmtree("dist", ignore_errors=True)
         os.system(f"python setup.py sdist bdist_wheel")
         os.chdir(current_working_dir)
 
