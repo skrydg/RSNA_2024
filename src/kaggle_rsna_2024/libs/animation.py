@@ -27,6 +27,6 @@ class ScanAnimation:
 
     def show(self, scan: Input3dScan):
         image = scan.get_image_array()
-        title = f'series_id = {scan.series_id}, scan_type={scan.scan_type}'
+        title = f'series_id = {scan.info.series_id}, scan_type={scan.info.scan_type}'
         return self.image_animation.show(image, title)
         
