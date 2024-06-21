@@ -6,9 +6,9 @@ import shutil
 from kaggle_rsna_2024.libs.scan_type import ScanType
 
 class InputDataItemSerializer:
-    def __init__(self, default_value):
+    def __init__(self, shape, default_value):
+        self.shape = self.shape
         self.default_value = default_value
-        self.shape = self.default_value.shape
 
     def serialize(self, input_data_item, label):
         features = {
