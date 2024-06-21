@@ -37,28 +37,31 @@ class Input3dScanMetaInfo:
 
 
 class Input3dScan:
-    def __init__(self, info: Input3dScanMetaInfo, image_shape: tuple):
+    def __init__(self, info: Input3dScanMetaInfo, image_shapes: list):
         self.info = info
-        self.image_shape = image_shape
+        self.image_shapes = image_shapes
+        self.images = []
 
-        scans = []
-        dicom_names = sitk.ImageSeriesReader().GetGDCMSeriesFileNames(str(self.info.directory))
-        reader = sitk.ImageSeriesReader()
-        for dicom_name in dicom_names:
-            reader.SetFileNames([dicom_name])
-            image = reader.Execute()
-            image_shape_2d = list(image_shape[:2]) + [1]
-            scans.append(sitk.GetArrayFromImage(reshape_image(image, image_shape_2d))[0, :, :])
+        for image_shape in self.image_shapes:
+            scans = []
+            dicom_names = sitk.ImageSeriesReader().GetGDCMSeriesFileNames(str(self.info.directory))
+            reader = sitk.ImageSeriesReader()
+            for dicom_name in dicom_names:
+                reader.SetFileNames([dicom_name])
+                image = reader.Execute()
+                image_shape_2d = list(image_shape[:2]) + [1]
+                scans.append(sitk.GetArrayFromImage(reshape_image(image, image_shape_2d))[0, :, :])
 
-        scans = np.array(scans)
-        self.image = sitk.GetImageFromArray(scans)
-        self.image = reshape_image(self.image, image_shape)
+            scans = np.array(scans)
+            image = sitk.GetImageFromArray(scans)
+            image = reshape_image(image, image_shape)
+            self.images[str(image_shape)] = image
 
-    def get_image(self):
-        return self.image
+    def get_image(self, shape):
+        return self.images[str(shape)]
 
-    def get_image_array(self):
-        return self._convert_to_8bit(sitk.GetArrayFromImage(self.image))
+    def get_image_array(self, shape):
+        return self._convert_to_8bit(sitk.GetArrayFromImage(self.get_image(shape)))
     
     def _convert_to_8bit(self, x):
         lower, upper = np.percentile(x, (1, 99))

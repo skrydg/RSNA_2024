@@ -14,12 +14,12 @@ class InputDataItemMetaInfo:
 
 
 class InputDataItem:
-    def __init__(self, info: InputDataItemMetaInfo, image_shape: Tuple[int]):
+    def __init__(self, info: InputDataItemMetaInfo, image_shape: list[Tuple[int]]):
         self.info = info
-        self.image_shape = image_shape
+        self.image_shapes = image_shapes
 
         self.scans = defaultdict(list)
         for series_id in self.info.scan_meta_info.keys():
             self.scans[self.info.scan_meta_info[series_id].scan_type].append(
-                Input3dScan(self.info.scan_meta_info[series_id], image_shape)
+                Input3dScan(self.info.scan_meta_info[series_id], image_shapes)
             )

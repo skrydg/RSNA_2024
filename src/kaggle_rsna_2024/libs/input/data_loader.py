@@ -12,10 +12,10 @@ from kaggle_rsna_2024.libs.input.input_data_item import InputDataItem, InputData
 from kaggle_rsna_2024.libs.input.input_3d_scan import Input3dScanMetaInfo, Input3dScanMetaInfo
  
 class DataLoader:
-    def __init__(self, data_loader_configuration: DataLoaderConfiguration, meta_data, image_shape):
+    def __init__(self, data_loader_configuration: DataLoaderConfiguration, meta_data, image_shapes):
         self.data_loader_configuration = data_loader_configuration
         self.meta_data = meta_data
-        self.image_shape = image_shape
+        self.image_shapes = image_shapes
         self.series_descriptions = {
              dataset_type: self._load_series_descriptions(dataset_type)
              for dataset_type in DatasetType
@@ -26,7 +26,7 @@ class DataLoader:
 
     def get_item(self, dataset_type, study_id):
         meta_data = self.get_meta_data(dataset_type, study_id)
-        return InputDataItem(meta_data, self.image_shape)
+        return InputDataItem(meta_data, self.image_shapes)
 
     def _load_series_descriptions(self, dataset_type):
         filepath = self.data_loader_configuration.get_series_description_path(dataset_type)
