@@ -7,7 +7,7 @@ from kaggle_rsna_2024.libs.scan_type import ScanType
 
 class InputDataItemSerializer:
     def __init__(self, shape, default_value):
-        self.shape = self.shape
+        self.shape = shape
         self.default_value = default_value
 
     def serialize(self, input_data_item, label):
