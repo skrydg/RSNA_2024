@@ -40,7 +40,7 @@ class Input3dScan:
     def __init__(self, info: Input3dScanMetaInfo, image_shapes: list):
         self.info = info
         self.image_shapes = image_shapes
-        self.images = []
+        self.images = {}
 
         for image_shape in self.image_shapes:
             scans = []
