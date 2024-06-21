@@ -8,12 +8,13 @@ from kaggle_rsna_2024.libs.scan_type import ScanType
 class InputDataItemSerializer:
     def __init__(self, default_value):
         self.default_value = default_value
+        self.shape = self.default_value.shape
 
     def serialize(self, input_data_item, label):
         features = {
             f'image_{scan_type}': self._bytes_feature([
                 tf.io.serialize_tensor(
-                    input_data_item.scans[scan_type][0].get_image_array()
+                    input_data_item.scans[scan_type][0].get_image_array(self.shape)
                 ).numpy()
             ])
             for scan_type in ScanType
