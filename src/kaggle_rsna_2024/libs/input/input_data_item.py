@@ -14,7 +14,7 @@ class InputDataItemMetaInfo:
 
 
 class InputDataItem:
-    def __init__(self, info: InputDataItemMetaInfo, image_shape: list[Tuple[int]]):
+    def __init__(self, info: InputDataItemMetaInfo, image_shapes: list[Tuple[int]]):
         self.info = info
         self.image_shapes = image_shapes
 
